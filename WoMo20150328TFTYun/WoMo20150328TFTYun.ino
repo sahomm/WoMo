@@ -137,14 +137,14 @@ void loop() {
     amp_solar = temp;
   }
   
-  //aktuelle Entnahme Battrie
-  temp =  (float)amp_bat - (float)amp_solar;
-  if((int)(temp*100)!=(int)(amp_bat_current*100)){
-      show_value(amp_bat_current,color_background, pos_amp_bat_current_x, pos_amp_bat_current_y);
-    // Neuen Wert anzeigen
-    show_value(temp,color_text, pos_amp_bat_current_x, pos_amp_bat_current_y);
-    amp_bat_current = temp;
-  }
+//  //aktuelle Entnahme Battrie
+//  temp =  (float)amp_bat - (float)amp_solar;
+//  if((int)(temp*100)!=(int)(amp_bat_current*100)){
+//      show_value(amp_bat_current,color_background, pos_amp_bat_current_x, pos_amp_bat_current_y);
+//    // Neuen Wert anzeigen
+//    show_value(temp,color_text, pos_amp_bat_current_x, pos_amp_bat_current_y);
+//    amp_bat_current = temp;
+//  }
   
 
   //Ah Entnahme Battrie
@@ -155,21 +155,21 @@ void loop() {
     // Neuen Wert anzeigen
     watthr_bat = temp*volt_bat;
     show_value(temp,color_text, pos_amphr_bat_x, pos_amphr_bat_y);
-    show_value(watthr_bat,color_text, pos_watthr_bat_x, pos_watthr_bat_y);
+    //show_value(watthr_bat,color_text, pos_watthr_bat_x, pos_watthr_bat_y);
     amphr_bat = temp;
   }
   
-  //Ah Ertrag Solar
-  temp =  calcAhSolar(volt_bat, amp_solar);
-  if((int)(temp*100)!=(int)(amphr_solar*100)){
-    show_value(amphr_solar,color_background, pos_amphr_solar_x, pos_amphr_solar_y);
-    show_value(watthr_solar,color_background, pos_watthr_solar_x, pos_watthr_solar_y);
-    // Neuen Wert anzeigen
-    watthr_solar = temp*volt_bat;
-    show_value(temp,color_text, pos_amphr_solar_x, pos_amphr_solar_y);
-    show_value(watthr_solar,color_text, pos_watthr_solar_x, pos_watthr_solar_y);
-    amphr_solar = temp;
-  } 
+//  //Ah Ertrag Solar
+//  temp =  calcAhSolar(volt_bat, amp_solar);
+//  if((int)(temp*100)!=(int)(amphr_solar*100)){
+//    show_value(amphr_solar,color_background, pos_amphr_solar_x, pos_amphr_solar_y);
+//    show_value(watthr_solar,color_background, pos_watthr_solar_x, pos_watthr_solar_y);
+//    // Neuen Wert anzeigen
+//    watthr_solar = temp*volt_bat;
+//    show_value(temp,color_text, pos_amphr_solar_x, pos_amphr_solar_y);
+//    show_value(watthr_solar,color_text, pos_watthr_solar_x, pos_watthr_solar_y);
+//    amphr_solar = temp;
+//  } 
   
   delay(1000);
   
