@@ -151,7 +151,7 @@ void loop() {
   temp =  calcAhBat(volt_bat, amp_bat_current);
   if((int)(temp*100)!=(int)(amphr_bat*100)){
     show_value(amphr_bat,color_background, pos_amphr_bat_x, pos_amphr_bat_y);
-    show_value(watthr_bat,color_background, pos_watthr_bat_x, pos_watthr_bat_y);
+    //show_value(watthr_bat,color_background, pos_watthr_bat_x, pos_watthr_bat_y);
     // Neuen Wert anzeigen
     watthr_bat = temp*volt_bat;
     show_value(temp,color_text, pos_amphr_bat_x, pos_amphr_bat_y);
@@ -171,7 +171,7 @@ void loop() {
 //    amphr_solar = temp;
 //  } 
   
-  delay(1000);
+ // delay(1000);
   
 }
 
@@ -214,8 +214,8 @@ float readAmpSolar(int mitteln){
   
   for(i=0;i< mitteln;i++) {
     vcc = (float) 3300 / analogRead(5) * 1024;    // Versorgungsspannung ermitteln
-    //vsensor = (((long)analogRead(A2) * 5000 / 1024) - 500 ) * 1000 / 133; // Messwert auslesen
-    vsensor = (((long)analogRead(A2) * vcc / 1024) - (vcc/10) ) * 1000 / 133; // Messwert auslesen
+    vsensor = (((long)analogRead(A2) * 5000 / 1024) - 500 ) * 1000 / 133; // Messwert auslesen
+    //vsensor = (((long)analogRead(A2) * vcc / 1024) - (vcc/10) ) * 1000 / 133; // Messwert auslesen
     //vsensor = (((long)analogRead(A2) * vcc / 1024) - 420 ) * 1000 / 133; // Messwert auslesen
     amp = (float) vsensor /1000 ;            // Ampere berechnen
     ampmittel += amp;                               // Summieren
