@@ -281,30 +281,30 @@ float readVoltBat(int mitteln){
   //return volt;
 }
 
-float readVoltBatBACKUP(int mitteln){
-  float Batt_div, volt, voltmittel = 0, sensdiff;
-  int i;
-  // sensdiff = 0.6;  //korrekturwert WoMo
-  sensdiff = 0.2; //Korrekturwert Labor
-  for(i=0;i< mitteln;i++) {
-    Batt_div = 1023.0 / 5.0 / (10000+5000) * 5000.0;
-    //Batt_div = 1024.0 / 5.00 / (10+5) * 5.0;
-    //Batt_div = 1023.0 / ((float) readVccArduino() /1000) / (10000+5000) * 5000.0;
-    Batt_div = Batt_div + sensdiff;
-    volt = analogRead(0)/Batt_div;
-    voltmittel += volt;
-  }
-  
-  if(debugPWR){Console.print(analogRead(pin_volt_bat));}
-  if(debugPWR){Console.print(" ");}
-  if(debugPWR){Console.print(voltmittel / mitteln);}
-  //if(debugPWR){Console.print(volt);}
-  if(debugPWR){Console.print("V ");}
-  //if(debugPWR){Console.print((float)readVccArduino());}
-  if(debugPWR){Console.println("V ");}
-  return voltmittel / mitteln;
-  //return volt;
-}
+//float readVoltBatBACKUP(int mitteln){
+//  float Batt_div, volt, voltmittel = 0, sensdiff;
+//  int i;
+//  // sensdiff = 0.6;  //korrekturwert WoMo
+//  sensdiff = 0.2; //Korrekturwert Labor
+//  for(i=0;i< mitteln;i++) {
+//    Batt_div = 1023.0 / 5.0 / (10000+5000) * 5000.0;
+//    //Batt_div = 1024.0 / 5.00 / (10+5) * 5.0;
+//    //Batt_div = 1023.0 / ((float) readVccArduino() /1000) / (10000+5000) * 5000.0;
+//    Batt_div = Batt_div + sensdiff;
+//    volt = analogRead(0)/Batt_div;
+//    voltmittel += volt;
+//  }
+//  
+//  if(debugPWR){Console.print(analogRead(pin_volt_bat));}
+//  if(debugPWR){Console.print(" ");}
+//  if(debugPWR){Console.print(voltmittel / mitteln);}
+//  //if(debugPWR){Console.print(volt);}
+//  if(debugPWR){Console.print("V ");}
+//  //if(debugPWR){Console.print((float)readVccArduino());}
+//  if(debugPWR){Console.println("V ");}
+//  return voltmittel / mitteln;
+//  //return volt;
+//}
 
 float calcAhBat (float voltbat, float amp){
   float watts = (float)voltbat * (float)amp;
