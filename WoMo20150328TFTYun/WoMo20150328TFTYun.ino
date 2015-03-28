@@ -148,7 +148,7 @@ void loop() {
   
 
   //Ah Entnahme Battrie
-  temp =  calcAhBat(volt_bat, amp_bat_current);
+  temp =  calcAhBat(volt_bat, amp_bat);
   if((int)(temp*100)!=(int)(amphr_bat*100)){
     show_value(amphr_bat,color_background, pos_amphr_bat_x, pos_amphr_bat_y);
     //show_value(watthr_bat,color_background, pos_watthr_bat_x, pos_watthr_bat_y);
@@ -171,7 +171,7 @@ void loop() {
 //    amphr_solar = temp;
 //  } 
   
- // delay(1000);
+ delay(300);
   
 }
 
