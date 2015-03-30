@@ -16,6 +16,10 @@ Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC);
 // If using the breakout, change pins as desired
 //Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC, TFT_MOSI, TFT_CLK, TFT_RST, TFT_MISO);
 
+//delay
+unsigned long previousMillis = 0;
+unsigned long interval = 300;
+
 //debug on/off
 boolean debugPWR = true; //debug Anteil Strom- Spannungsmessung ON OFF
 boolean debugDIM = false; //debug Dimmer Display ON OFF
@@ -107,71 +111,76 @@ void setup() {
 }
 
 void loop() {
-  //tft.println("beginLoop");
-  //Spannung
-  float temp= readVoltBat(100);
-  if((int)(temp*100)!=(int)(volt_bat*100)){
-    // Alten Werten mit color_background überschreiben (vom Display löschen)
-    show_value(volt_bat,color_background, pos_volt_bat_x, pos_volt_bat_y);
-    // Neuen Wert anzeigen
-    show_value(temp,color_text, pos_volt_bat_x, pos_volt_bat_y);
-    volt_bat = temp; 
+    
+  if (millis() - previousMillis > interval){
+    previousMillis = millis();
+    //tft.println("beginLoop");
+    //Spannung
+    float temp= readVoltBat(100);
+    if((int)(temp*100)!=(int)(volt_bat*100)){
+      // Alten Werten mit color_background überschreiben (vom Display löschen)
+      show_value(volt_bat,color_background, pos_volt_bat_x, pos_volt_bat_y);
+      // Neuen Wert anzeigen
+      show_value(temp,color_text, pos_volt_bat_x, pos_volt_bat_y);
+      volt_bat = temp; 
+    }  
+    
+    //Amp Batterie
+    temp =  readAmpBat(200);
+    if((int)(temp*100)!=(int)(amp_bat*100)){
+      show_value(amp_bat,color_background, pos_amp_bat_x, pos_amp_bat_y);
+      // Neuen Wert anzeigen
+      show_value(temp,color_text, pos_amp_bat_x, pos_amp_bat_y);
+      amp_bat = temp;
+    }
+    
+    //Amp Solar
+    temp = analogRead(A2);
+    //temp =  readAmpSolar(100); //zum Test der Berehnumg!!!
+    if((int)(temp*100)!=(int)(amp_solar*100)){
+      show_value(amp_solar,color_background, pos_amp_solar_x, pos_amp_solar_y);
+      // Neuen Wert anzeigen
+      show_value(temp,color_text, pos_amp_solar_x, pos_amp_solar_y);
+      amp_solar = temp;
+    }
+    
+  //  //aktuelle Entnahme Battrie
+  //  temp =  (float)amp_bat - (float)amp_solar;
+  //  if((int)(temp*100)!=(int)(amp_bat_current*100)){
+  //      show_value(amp_bat_current,color_background, pos_amp_bat_current_x, pos_amp_bat_current_y);
+  //    // Neuen Wert anzeigen
+  //    show_value(temp,color_text, pos_amp_bat_current_x, pos_amp_bat_current_y);
+  //    amp_bat_current = temp;
+  //  }
+    
+  
+    //Ah Entnahme Battrie
+    temp =  calcAhBat(amp_bat);
+    //temp =  calcAhBat(10); //zum Test
+    if((int)(temp*100)!=(int)(amphr_bat*100)){
+      show_value(amphr_bat,color_background, pos_amphr_bat_x, pos_amphr_bat_y);
+      //show_value(watthr_bat,color_background, pos_watthr_bat_x, pos_watthr_bat_y);
+      // Neuen Wert anzeigen
+      watthr_bat = temp*volt_bat;
+      show_value(temp,color_text, pos_amphr_bat_x, pos_amphr_bat_y);
+      //show_value(watthr_bat,color_text, pos_watthr_bat_x, pos_watthr_bat_y);
+      amphr_bat = temp;
+    }
+    
+  //  //Ah Ertrag Solar
+  //  temp =  calcAhSolar(volt_bat, amp_solar);
+  //  if((int)(temp*100)!=(int)(amphr_solar*100)){
+  //    show_value(amphr_solar,color_background, pos_amphr_solar_x, pos_amphr_solar_y);
+  //    show_value(watthr_solar,color_background, pos_watthr_solar_x, pos_watthr_solar_y);
+  //    // Neuen Wert anzeigen
+  //    watthr_solar = temp*volt_bat;
+  //    show_value(temp,color_text, pos_amphr_solar_x, pos_amphr_solar_y);
+  //    show_value(watthr_solar,color_text, pos_watthr_solar_x, pos_watthr_solar_y);
+  //    amphr_solar = temp;
+  //  } 
+    
+   //delay(300);
   }  
-  
-  //Amp Batterie
-  temp =  readAmpBat(200);
-  if((int)(temp*100)!=(int)(amp_bat*100)){
-    show_value(amp_bat,color_background, pos_amp_bat_x, pos_amp_bat_y);
-    // Neuen Wert anzeigen
-    show_value(temp,color_text, pos_amp_bat_x, pos_amp_bat_y);
-    amp_bat = temp;
-  }
-  
-  //Amp Solar
-  //temp = analogRead(A2);
-  temp =  readAmpSolar(100);
-  if((int)(temp*100)!=(int)(amp_solar*100)){
-    show_value(amp_solar,color_background, pos_amp_solar_x, pos_amp_solar_y);
-    // Neuen Wert anzeigen
-    show_value(temp,color_text, pos_amp_solar_x, pos_amp_solar_y);
-    amp_solar = temp;
-  }
-  
-//  //aktuelle Entnahme Battrie
-//  temp =  (float)amp_bat - (float)amp_solar;
-//  if((int)(temp*100)!=(int)(amp_bat_current*100)){
-//      show_value(amp_bat_current,color_background, pos_amp_bat_current_x, pos_amp_bat_current_y);
-//    // Neuen Wert anzeigen
-//    show_value(temp,color_text, pos_amp_bat_current_x, pos_amp_bat_current_y);
-//    amp_bat_current = temp;
-//  }
-  
-
-  //Ah Entnahme Battrie
-  temp =  calcAhBat(volt_bat, amp_bat);
-  if((int)(temp*100)!=(int)(amphr_bat*100)){
-    show_value(amphr_bat,color_background, pos_amphr_bat_x, pos_amphr_bat_y);
-    //show_value(watthr_bat,color_background, pos_watthr_bat_x, pos_watthr_bat_y);
-    // Neuen Wert anzeigen
-    watthr_bat = temp*volt_bat;
-    show_value(temp,color_text, pos_amphr_bat_x, pos_amphr_bat_y);
-    //show_value(watthr_bat,color_text, pos_watthr_bat_x, pos_watthr_bat_y);
-    amphr_bat = temp;
-  }
-  
-//  //Ah Ertrag Solar
-//  temp =  calcAhSolar(volt_bat, amp_solar);
-//  if((int)(temp*100)!=(int)(amphr_solar*100)){
-//    show_value(amphr_solar,color_background, pos_amphr_solar_x, pos_amphr_solar_y);
-//    show_value(watthr_solar,color_background, pos_watthr_solar_x, pos_watthr_solar_y);
-//    // Neuen Wert anzeigen
-//    watthr_solar = temp*volt_bat;
-//    show_value(temp,color_text, pos_amphr_solar_x, pos_amphr_solar_y);
-//    show_value(watthr_solar,color_text, pos_watthr_solar_x, pos_watthr_solar_y);
-//    amphr_solar = temp;
-//  } 
-  
- delay(300);
   
 }
 
@@ -306,14 +315,18 @@ float readVoltBat(int mitteln){
 //  //return volt;
 //}
 
-float calcAhBat (float voltbat, float amp){
-  float watts = (float)voltbat * (float)amp;
+float calcAhBat (float amp){
+  //float watts = (float)voltbat * (float)amp;
   sample = sample + 1;
   float msec = millis();
   float time = (float)msec /1000;
   totalUsage = totalUsage + amp;
   float averageAmp = totalUsage/sample;
   float ampSec = averageAmp*time;
+  if(debugPWR){Console.print("Ah:");}
+  if(debugPWR){Console.print(ampSec/3600);}
+  if(debugPWR){Console.print(" time:");}
+  if(debugPWR){Console.println(time);}
   return (float)ampSec/3600;  
 }
 
